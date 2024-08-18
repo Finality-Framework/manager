@@ -1,4 +1,3 @@
-const { invoke } = window.__TAURI__.tauri
 import * as native from "./native.js"
 
 export function refresh_locale_text() {

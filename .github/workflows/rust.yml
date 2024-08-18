@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: app
-        path: ${{ github.workspace }}\src-tauri\target\release\bundle\nsis\finality-framework_1.0.0_x64-setup.exe
+        path: ${{ github.workspace }}\src-tauri\target\release\bundle\nsis\Finality Framework_1.0.0_x64-setup.exe
     - name: upload artifact(ubuntu)
       if: matrix.platform == 'ubuntu-20.04'
       uses: actions/upload-artifact@v1

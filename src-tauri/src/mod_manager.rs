@@ -20,7 +20,9 @@ impl ModInstance {
         }
         let path2 = path.to_string();
         let mod_txt = fs::read_to_string(path.to_string() + "mod.txt").unwrap();
-        let mod_txt: Value = serde_json::from_str(&mod_txt).unwrap();
+        let id = fs::read_to_string(path.to_string() + "mod.txt").unwrap();
+        let id = id.parse::<u64>().unwrap();
+        let mod_txt: Value = json5::from_str(&mod_txt).unwrap();
         ModInstance {
             path: path2,
             enabled: !disabled,
@@ -28,7 +30,7 @@ impl ModInstance {
             description: mod_txt["Description"].as_str().unwrap().to_string(),
             tags: ["1".to_string(), "2".to_string()].to_vec(),
             change_note: mod_txt["ChangeNote"].as_str().unwrap().to_string(),
-            id: 0,
+            id: id,
         }
     }
     pub fn enable(&mut self) {

@@ -1,9 +1,6 @@
-const { invoke } = window.__TAURI__.tauri
 const { open,message } = window.__TAURI__.dialog
 import * as native from "./native.js"
-import * as localize from "./localize.js"
 let selectedPathEl
-let selected
 let nextBtnEl
 
 function get_better_path(path_str){
