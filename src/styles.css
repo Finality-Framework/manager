@@ -46,8 +46,8 @@
 
 .left-top {
   position: fixed;
-  left: 0px;
-  top: 0px;
+  left: 5px;
+  top: 5px;
 }
 
 .row {
@@ -97,15 +97,18 @@ button {
 }
 
 button:hover {
+  color: #f6f6f6;
   background-color: #396cd8;
 }
 
 select{
   appearance: none;
-  padding-right: 5%;
+  padding-right: 18%;
 }
 
+
 select:hover{
+  color: #f6f6f6;
   background-color: #396cd8;
 }
 
@@ -113,13 +116,18 @@ select:hover{
   display: flex;
   position: relative;
 }
+
 .select-wrapper::after {
-  color: #f6f6f6;
+  color: #2f2f2f;
   content: "▼";
   font-size: 1rem;
-  top: 10px;
-  right: 30px;
+  top: 11px;
+  right: 22px;
   position: relative;
+  transition: background-color 0.25s;
+}
+.select-wrapper:hover::after {
+  color: #f6f6f6;
 }
 button:active {
   border-color: #396cd8;
@@ -127,7 +135,8 @@ button:active {
 }
 
 input,
-button {
+button,
+select {
   outline: none;
 }
 
@@ -136,6 +145,9 @@ button {
 }
 
 @media (prefers-color-scheme: dark) {
+  .select-wrapper::after {
+    color: #f6f6f6;
+  }
   .icon{
     filter: brightness(100);
   }

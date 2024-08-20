@@ -4,10 +4,10 @@ let selectedPathEl
 let nextBtnEl
 
 function get_better_path(path_str){
-  if(path_str.substr(-1) == "/"){
+  if(path_str.substr(-1) == native.get_sep()){
     return path_str
   }else{
-    return path_str+"/";
+    return path_str+native.get_sep();
   }
 }
 
@@ -26,10 +26,11 @@ async function greet() {
 async function confirm_next(){
   selectedPathEl.value = get_better_path(selectedPathEl.value);
   if(!await native.is_a_vaild_game_path(selectedPathEl.value)){
-    message("游戏实例路径无效，请检查后重新填入。",{title:"Finality Framework",type:"error"})
+    message(await native.get_text("oobe.invaild_game_path_please_check"),{title:"Finality Framework",type:"error"})
     selectedPathEl.value = ""
   }else{
     await native.save_config()
+    await native.extract_bootstrap()
     window.location.href = "./main.html"
   }
 }

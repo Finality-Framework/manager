@@ -5,12 +5,17 @@ use config_manager::Config;
 use language_manager::load_locale_text;
 use mod_manager::ModInstance;
 use serde_json::Value;
-use std::{fs::{self, File}, sync::Mutex};
 
-pub mod config_manager;
+use std::{
+    fs::{self, File},
+    process::Command,
+    sync::Mutex,
+};
+
+mod config_manager;
+mod consts;
 mod language_manager;
 mod mod_manager;
-mod consts;
 
 pub static mut ENV: Env = Env {
     sync_lock: Mutex::new(0),
@@ -46,16 +51,21 @@ fn set_lang(app: tauri::AppHandle, lang_name: &str) {
 
 #[tauri::command]
 fn extract_bootstrap(app: tauri::AppHandle) {
+    println!("extract bootstrap");
     let resource_path = app
         .path_resolver()
         .resolve_resource(consts::BOOTSTRAP_PATH.to_string())
         .expect("failed to resolve resource");
-    let mut game_path = "".to_string();
+    let game_path: String;
     unsafe {
-        let config = ENV.config.pop().unwrap();
+        let config = ENV.config.pop().expect("Config struct not found!");
         game_path = config.game_path.to_string();
+        ENV.config.push(config);
     }
-    let _ = fs::copy(&resource_path.into_os_string().into_string().unwrap(),game_path );
+    let _ = fs::copy(
+        &resource_path.into_os_string().into_string().unwrap(),
+        game_path + "bootstrap.jar",
+    );
 }
 
 #[tauri::command]
@@ -130,6 +140,18 @@ fn save_config() {
     }
 }
 
+#[tauri::command]
+fn launch_game() {
+    let game_path:String;
+    unsafe {
+        let config = ENV.config.pop().unwrap();
+        game_path = config.game_path.to_string();
+        ENV.config.push(config);
+    }
+    //launch game!
+    let _child = Command::new("javaw").arg("-Dfile.encoding=utf-8").arg("-jar").arg((&game_path).to_string()+"bootstrap.jar").arg((&game_path).to_string()+"manifest.txt").current_dir(&game_path).spawn().unwrap();
+}
+
 fn main() {
     unsafe {
         ENV = Env {
@@ -160,7 +182,8 @@ fn main() {
             set_lang,
             get_language,
             save_config,
-            extract_bootstrap
+            extract_bootstrap,
+            launch_game
         ])
         .run(tauri::generate_context!())
         .expect("error while running Finality Framework");

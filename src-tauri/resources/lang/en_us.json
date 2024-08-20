@@ -5,5 +5,6 @@
     "oobe.intro":"It seems that you're using Finality Framework for the first time.\nThis guide page will help you config Finality Framework.\nChoose your Age of History 3 game folder path.",
     "oobe.input_game_path":"Input game folder path",
     "common.continue":"Continue",
-    "common.choose":"Choose"
+    "common.choose":"Choose",
+    "oobe.invaild_game_path_please_check":"Invaild game folder,please check and retry."
 }

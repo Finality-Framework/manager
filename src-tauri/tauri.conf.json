@@ -17,6 +17,9 @@
             "shell": {
                 "all": false,
                 "open": true
+            },
+            "path": {
+                "all": true
             }
         },
         "windows": [
@@ -31,16 +34,29 @@
         },
         "bundle": {
             "active": true,
-            "targets": ["deb", "nsis"],
+            "targets": [
+                "deb",
+                "nsis"
+            ],
             "identifier": "team.rainfall.finality",
-            "resources":["./resources"],
+            "resources": [
+                "./resources"
+            ],
             "icon": [
                 "icons/32x32.png",
                 "icons/128x128.png",
                 "icons/128x128@2x.png",
                 "icons/icon.icns",
                 "icons/icon.ico"
-            ]
+            ],
+            "windows": {
+                "nsis": {
+                    "languages": [
+                        "English",
+                        "SimpChinese"
+                    ]
+                }
+            }
         }
     }
 }

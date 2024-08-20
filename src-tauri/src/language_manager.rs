@@ -1,5 +1,4 @@
 use std::fs::{self};
-
 use serde_json::Value;
 
 pub fn load_locale_text(path:&str) -> Vec<Value>{

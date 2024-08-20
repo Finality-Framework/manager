@@ -5,5 +5,6 @@
     "oobe.intro":"看起来您是初次使用Finality Framework。\n本向导页面将帮助您完成Finality Framework的配置。\n选择您的《历史时代3》游戏文件夹路径。",
     "oobe.input_game_path":"输入游戏路径",
     "common.continue":"继续",
-    "common.choose":"选择"
+    "common.choose":"选择",
+    "oobe.invaild_game_path_please_check":"游戏实例路径无效，请检查后重新填入。"
 }
