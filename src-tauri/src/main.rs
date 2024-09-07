@@ -1,161 +1,24 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use crate::env_manager::Env;
 use config_manager::Config;
+use env_manager::ENV;
 use language_manager::load_locale_text;
-use mod_manager::ModInstance;
-use serde_json::Value;
-
-use std::{
-    fs::{self, File},
-    process::Command,
-    sync::Mutex,
-};
+use tauri_commands::{extract_bootstrap, get_language, get_text, is_a_vaild_game_path, is_oobe_over, launch_game, load_mod, reload_config, save_config, set_lang, set_oobe_over};
 
 mod config_manager;
 mod consts;
+mod env_manager;
 mod language_manager;
 mod mod_manager;
+pub mod tauri_commands;
 
-pub static mut ENV: Env = Env {
-    sync_lock: Mutex::new(0),
-    config: Vec::new(),
-    mod_list: Vec::new(),
-    locale_text_map: Vec::new(),
-};
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 
-#[tauri::command]
-fn set_lang(app: tauri::AppHandle, lang_name: &str) {
-    unsafe {
-        let _unused = ENV.sync_lock.lock().unwrap();
-        let config = ENV.config.pop();
-        if let Some(mut config2) = config {
-            println!("{}", lang_name);
-            config2.lang = lang_name.to_string();
-            let resource_path = app
-                .path_resolver()
-                .resolve_resource(consts::LANG_PATH_PREFIX.to_string() + lang_name + ".json")
-                .expect("failed to resolve resource");
-            ENV.locale_text_map =
-                load_locale_text(&resource_path.into_os_string().into_string().unwrap());
-            println!("2 {}", &config2.lang);
-            ENV.config.push(config2);
-        }
-    }
-}
-
-#[tauri::command]
-fn extract_bootstrap(app: tauri::AppHandle) {
-    println!("extract bootstrap");
-    let resource_path = app
-        .path_resolver()
-        .resolve_resource(consts::BOOTSTRAP_PATH.to_string())
-        .expect("failed to resolve resource");
-    let game_path: String;
-    unsafe {
-        let config = ENV.config.pop().expect("Config struct not found!");
-        game_path = config.game_path.to_string();
-        ENV.config.push(config);
-    }
-    let _ = fs::copy(
-        &resource_path.into_os_string().into_string().unwrap(),
-        game_path + "bootstrap.jar",
-    );
-}
-
-#[tauri::command]
-fn reload_config(app: tauri::AppHandle) {
-    unsafe {
-        let _unused = ENV.sync_lock.lock();
-        let config = ENV.config.pop();
-        if let Some(mut config2) = config {
-            println!("reload config...");
-            config2 = Config::get_config_from_json("./config.json");
-            ENV.config.push(config2);
-            let resource_path = app
-                .path_resolver()
-                .resolve_resource("languages/".to_string() + &get_language() + ".json")
-                .expect("failed to resolve resource");
-            ENV.locale_text_map =
-                load_locale_text(&resource_path.into_os_string().into_string().unwrap())
-        }
-    }
-}
-
-#[tauri::command]
-fn is_a_vaild_game_path(path: &str) -> bool {
-    if let Ok(_file) = File::open(path.to_string() + "AoC2.exe") {
-        unsafe {
-            let mut config = ENV.config.pop().unwrap();
-            config.game_path = path.to_string();
-            ENV.config.push(config);
-        }
-        println!("OK");
-        true
-    } else {
-        println!("NO");
-        false
-    }
-}
-
-#[tauri::command]
-fn load_mod(name: &str) -> String {
-    return mod_manager::ModInstance::load(&("".to_string() + name + "/")).description;
-}
-#[tauri::command]
-fn get_text(key: &str) -> String {
-    let mut locale_text = "NO TEXT".to_string();
-    unsafe {
-        let values = ENV.locale_text_map.pop().unwrap();
-        if let Some(locale_text_2) = values[key].as_str() {
-            locale_text = locale_text_2.to_string();
-        }
-        ENV.locale_text_map.push(values);
-    }
-    locale_text
-}
-
-#[tauri::command]
-fn get_language() -> String {
-    let mut lang_name = "zh_cn".to_string();
-    unsafe {
-        let config = ENV.config.pop();
-        if let Some(config2) = config {
-            lang_name = (&config2.lang).to_string();
-            ENV.config.push(config2);
-        }
-    }
-    lang_name
-}
-
-#[tauri::command]
-fn save_config() {
-    unsafe {
-        ENV.config.get(0).unwrap().save_config("./config.json");
-    }
-}
-
-#[tauri::command]
-fn launch_game() {
-    let game_path:String;
-    unsafe {
-        let config = ENV.config.pop().unwrap();
-        game_path = config.game_path.to_string();
-        ENV.config.push(config);
-    }
-    //launch game!
-    let _child = Command::new("javaw").arg("-Dfile.encoding=utf-8").arg("-jar").arg((&game_path).to_string()+"bootstrap.jar").arg((&game_path).to_string()+"manifest.txt").current_dir(&game_path).spawn().unwrap();
-}
 
 fn main() {
     unsafe {
         ENV = Env {
-            sync_lock: Mutex::new(0),
             config: vec![Config::get_config_from_json("./config.json")],
             mod_list: Vec::new(),
             locale_text_map: Vec::new(),
@@ -174,7 +37,6 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            greet,
             load_mod,
             is_a_vaild_game_path,
             get_text,
@@ -183,17 +45,10 @@ fn main() {
             get_language,
             save_config,
             extract_bootstrap,
-            launch_game
+            launch_game,
+            is_oobe_over,
+            set_oobe_over
         ])
         .run(tauri::generate_context!())
         .expect("error while running Finality Framework");
-}
-
-pub struct Env {
-    //static变量强制提前声明但又不让使用non-const func到底是哪个天才想出来的主意......
-    //先这样了 有好办法发issues踹我一脚
-    pub sync_lock: Mutex<i32>,
-    pub config: Vec<Config>,
-    pub mod_list: Vec<ModInstance>,
-    pub locale_text_map: Vec<Value>,
 }

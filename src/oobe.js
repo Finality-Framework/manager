@@ -29,12 +29,16 @@ async function confirm_next(){
     message(await native.get_text("oobe.invaild_game_path_please_check"),{title:"Finality Framework",type:"error"})
     selectedPathEl.value = ""
   }else{
+    await native.set_oobe_over(true)
     await native.save_config()
     await native.extract_bootstrap()
     window.location.href = "./main.html"
   }
 }
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
+  if(await native.is_oobe_over()){
+    window.location.href = "./main.html"
+  }
   let chooseLangEl = document.querySelector("#choose_lang")
   native.get_language().then((value)=>{chooseLangEl.value = value})
   chooseLangEl.addEventListener("change",async function(event){

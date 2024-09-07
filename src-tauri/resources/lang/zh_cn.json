@@ -1,10 +1,15 @@
 {
     "common.language_name": "简体中文（中国）",
+    "common.name":"Finality Framework",
     "oobe.invaild_game_path": "无效的游戏实例路径！",
     "oobe.welcome": "欢迎！",
     "oobe.intro":"看起来您是初次使用Finality Framework。\n本向导页面将帮助您完成Finality Framework的配置。\n选择您的《历史时代3》游戏文件夹路径。",
     "oobe.input_game_path":"输入游戏路径",
     "common.continue":"继续",
     "common.choose":"选择",
-    "oobe.invaild_game_path_please_check":"游戏实例路径无效，请检查后重新填入。"
+    "oobe.invaild_game_path_please_check":"游戏实例路径无效，请检查后重新填入。",
+    "main.home":"主页",
+    "main.setting":"设置",
+    "main.mods":"模组",
+    "main.presets":"预设"
 }

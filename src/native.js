@@ -37,3 +37,11 @@ export async function extract_bootstrap(){
 export async function launch_game() {
     await invoke("launch_game")
 }
+
+export async function is_oobe_over() {
+    return await invoke("is_oobe_over")
+}
+
+export async function set_oobe_over(oobe_over){
+    await invoke("set_oobe_over",{oobeOver2:oobe_over})
+}

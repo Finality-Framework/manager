@@ -8,6 +8,7 @@ use serde_json::Value;
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
+    pub oobe_over: bool,
     pub game_path: String,
     pub lang: String,
 }
@@ -17,7 +18,14 @@ impl Config {
         let config_json = fs::read_to_string(path);
         if let Ok(content) = config_json {
             let values: Value = serde_json::from_str(&content).unwrap();
+            let oobe_over;
+            if let Some(value2) = values["oobe_over"].as_bool(){
+                oobe_over = value2
+            }else {
+                oobe_over = false;
+            }
             Config {
+                oobe_over:oobe_over,
                 game_path: values["game_path"].as_str().unwrap().to_string(),
                 lang: values["lang"].as_str().unwrap().to_string(),
             }
@@ -43,6 +51,7 @@ impl Config {
 
 pub fn build_default_config() -> Config {
     Config {
+        oobe_over: false,
         game_path: "".to_string(),
         lang: "en_us".to_string(),
     }

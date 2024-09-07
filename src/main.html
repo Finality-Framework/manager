@@ -3,16 +3,28 @@
 
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="components.css" />
   <link rel="stylesheet" href="styles.css" />
   <script type="module" src="/main.js" defer></script>
+  <script type="module" src="/localize.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tauri App</title>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Finality Framework Main Menu</h1>
-    <button id="launch" type="submit">LaunchTest</button>
+  <div class="row">
+    <div class="left-top-for-nav">
+      <button type="submit" class="nav">main.home</button>
+      <button type="submit" class="nav">main.presets</button>
+      <button type="submit" class="nav">main.mods</button>
+      <button type="submit" class="nav">main.setting</button>
+    </div>
+    <div class="container2">
+      <div>
+        <h1>common.name</h1>
+        <button id="launch" type="submit">LaunchTest</button>
+      </div>
+    </div>
   </div>
 </body>
 
