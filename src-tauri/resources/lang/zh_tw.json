@@ -11,5 +11,6 @@
     "main.home":"主頁",
     "main.setting":"設置",
     "main.mods":"模組",
-    "main.presets":"預設"
+    "main.presets":"預設",
+    "main.home.launch":"啟動遊戲"
 }

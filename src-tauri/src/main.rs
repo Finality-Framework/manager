@@ -5,8 +5,8 @@ use crate::env_manager::Env;
 use config_manager::Config;
 use env_manager::ENV;
 use language_manager::load_locale_text;
-use tauri_commands::{extract_bootstrap, get_language, get_text, is_a_vaild_game_path, is_oobe_over, launch_game, load_mod, reload_config, save_config, set_lang, set_oobe_over};
-
+use tauri::Manager;
+use tauri_commands::{extract_bootstrap, get_language, get_mods, get_text, is_a_vaild_game_path, is_oobe_over, launch_game, load_mods, reload_config, save_config, set_lang, set_oobe_over};
 mod config_manager;
 mod consts;
 mod env_manager;
@@ -24,8 +24,9 @@ fn main() {
             locale_text_map: Vec::new(),
         };
     }
+    mod_manager::load_mods();
     tauri::Builder::default()
-        .setup(|app| {
+        .setup(|app: &mut tauri::App| {
             let resource_path = app
                 .path_resolver()
                 .resolve_resource("resources/lang/".to_string() + &get_language() + ".json")
@@ -37,7 +38,8 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            load_mod,
+            load_mods,
+            get_mods,
             is_a_vaild_game_path,
             get_text,
             reload_config,

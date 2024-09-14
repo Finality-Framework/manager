@@ -8,7 +8,7 @@ use crate::{
     consts,
     env_manager::ENV,
     language_manager::load_locale_text,
-    mod_manager,
+    mod_manager::{self, ModInstance},
 };
 
 #[tauri::command]
@@ -30,11 +30,10 @@ pub fn set_oobe_over(oobe_over2: bool) {
         ENV.config.push(config);
     }
 }
+
 #[tauri::command]
-pub fn load_mod(name: &str) {
-    unsafe {
-        ENV.mod_list.push(mod_manager::ModInstance::load(&("".to_string() + name + "/")));
-    }
+pub fn load_mods() {
+    mod_manager::load_mods();
 }
 #[tauri::command]
 pub fn get_text(key: &str) -> String {
@@ -87,7 +86,7 @@ pub fn extract_bootstrap(app: tauri::AppHandle) {
 }
 
 #[tauri::command]
-pub fn reload_config(app: tauri::AppHandle) {
+pub async fn reload_config(app: tauri::AppHandle) {
     unsafe {
         let config = ENV.config.pop();
         if let Some(mut config2) = config {
@@ -121,6 +120,18 @@ pub fn is_a_vaild_game_path(path: &str) -> bool {
 }
 
 #[tauri::command]
+pub fn get_mods() -> Vec<ModInstance> {
+    unsafe {
+        let mut mod_list:Vec<ModInstance> = Vec::new();
+        for instance in &ENV.mod_list {
+            let instance = instance.clone();
+            mod_list.push(instance);
+        }
+        return mod_list;
+    }
+}
+
+#[tauri::command]
 pub fn get_language() -> String {
     let mut lang_name = "zh_cn".to_string();
     unsafe {
@@ -143,6 +154,7 @@ pub fn save_config() {
 #[tauri::command]
 pub fn launch_game() {
     let game_path: String;
+    mod_manager::build_manifest();
     unsafe {
         let config = ENV.config.pop().unwrap();
         game_path = config.game_path.to_string();

@@ -5,25 +5,60 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="components.css" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="layouts.css" />
   <script type="module" src="/main.js" defer></script>
   <script type="module" src="/localize.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tauri App</title>
 </head>
 
-<body>
+<template id="mod-card-template">
+  <style>
+    :host {
+      border-radius: 4px;
+      display: block;
+      width: 100vh;
+      height: 9vh;
+      background-color: gray;
+      white-space: nowrap;
+    }
+    .row {
+      display: flex;
+      flex-direction: row;
+    }
+  </style>
   <div class="row">
+    <p>111111</p>
+    <p>111111</p>
+    <p>111111</p>
+  </div>
+</template>
+
+<body>
+  <div class="row2">
     <div class="left-top-for-nav">
-      <button type="submit" class="nav">main.home</button>
-      <button type="submit" class="nav">main.presets</button>
-      <button type="submit" class="nav">main.mods</button>
-      <button type="submit" class="nav">main.setting</button>
+      <button type="submit" class="nav-button" id="home">main.home</button>
+      <button type="submit" class="nav-button" id="presets">main.presets</button>
+      <button type="submit" class="nav-button" id="mods">main.mods</button>
+      <button type="submit" class="nav-button" id="setting">main.setting</button>
     </div>
-    <div class="container2">
-      <div>
-        <h1>common.name</h1>
-        <button id="launch" type="submit">LaunchTest</button>
+    <div class="page" id="home">
+      <h1 class="page-h1">main.home</h1>
+      <input type="checkbox"/>
+      <div class="right-bottom">
+        <button id="launch" type="submit">main.home.launch</button>
       </div>
+    </div>
+    <div class="page" id="presets">
+      <h1 class="page-h1">main.presets</h1>
+    </div>
+    <div class="page" id="mods">
+      <h1 class="page-h1">main.mods</h1>
+      <mod-card></mod-card>
+      <mod-card></mod-card>
+    </div>
+    <div class="page" id="setting">
+      <h1 class="page-h1">main.setting</h1>
     </div>
   </div>
 </body>

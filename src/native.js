@@ -1,12 +1,24 @@
 const { invoke } = window.__TAURI__.tauri
 const { sep } = window.__TAURI__.path
-
+const {appWindow} = window.__TAURI__.window;
 export async function reload_config(){
     await invoke("reload_config")
 }
 
+export async function setDecoration(decoration){
+    appWindow.setDecorations(decoration);
+}
+
 export function get_sep(){
     return sep;
+}
+
+export async function get_mods(){
+    return await invoke("get_mods");
+}
+
+export async function load_mods(){
+    await invoke("load_mods");
 }
 
 export async function get_platform(){

@@ -12,7 +12,7 @@ select {
     font-family: inherit;
     color: #0f0f0f;
     background-color: #ffffff;
-    transition: background-color 0.25s;
+    transition: background-color 0.2s;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -24,6 +24,7 @@ select {
 
 /* Button Styles */
 button {
+    user-select: none;
     cursor: pointer;
 }
 
@@ -32,7 +33,7 @@ button:hover {
     background-color: #396cd8;
 }
 
-button.nav {
+button.nav-button {
     text-align: start;
     display: block;
     width: 150px;
@@ -41,13 +42,15 @@ button.nav {
     box-shadow: none;
 }
 
-button.nav:hover {
+button.nav-button:hover {
     color: whitesmoke;
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.329);
 }
 
-button.nav:active,
+button.nav-button.active,
+button.active,
 button:active {
+    color:whitesmoke;
     border-color: #396cd8;
     background-color: #396cd8;
 }
@@ -89,6 +92,48 @@ select:hover {
     filter: brightness(0);
 }
 
+.page-h1 {
+    text-align: start;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 64px;
+    height: 32px;
+    position: relative;
+    border-radius: 16px;
+    cursor: pointer;
+    background-color: #777;
+}
+input[type="checkbox"]:before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    left: 2px;
+    top: 5px;
+    border-radius: 50%;
+    transition: left cubic-bezier(0.3, 1.5, 0.6, 1) 0.2s,top 0.2s,left 0.2s,width 0.2s,height 0.2s;
+}
+input[type="checkbox"]:hover {
+    background-color: #838383;
+}
+input[type="checkbox"]:hover::before {
+    width: 22px;
+    height: 22px;
+    left:3px;
+    top: 4px;
+}
+input[type="checkbox"]:checked {
+    background-color: #396cd8;
+}
+input[type="checkbox"]:checked:before {
+    left: 38px;
+}
+input[type="checkbox"]:checked:after {
+    color: black;
+}
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
@@ -116,7 +161,15 @@ select:hover {
         background-color: #0f0f0f98;
     }
 
-    button:active {
-        background-color: #0f0f0f69;
+    button.nav-button {
+        background-color: rgba(87,87,87,0.0);
     }
+
+    button.nav-button.active,
+    button.active button.nav-button:active,
+    button:active {
+        border-color: #396cd8;
+        background-color: #396cd8;
+    }
+
 }

@@ -1,4 +1,5 @@
 :root {
+  user-select: none;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -68,7 +69,6 @@ body {
 .row2 {
   display: flex;
   flex-direction: row;
-
 }
 
 a {
@@ -78,14 +78,17 @@ a {
 }
 
 p {
+  user-select:none;
   line-height: 3;
 }
 
 a:hover {
+  user-select:none;
   color: #535bf2;
 }
 
 h1 {
+  user-select:none;
   text-align: center;
 }
 
@@ -96,7 +99,7 @@ h1 {
 
 @media (prefers-color-scheme: dark) {
   .left-top-for-nav{
-    background-color: #0f0f0f;
+    background-color: rgb(58, 58, 58);
   }
   .select-wrapper::after {
     color: #f6f6f6;
@@ -108,7 +111,7 @@ h1 {
 
   :root {
     color: #f6f6f6;
-    background-color: #2f2f2f;
+    background-color: rgba(87,87,87);
   }
 
   a:hover {
