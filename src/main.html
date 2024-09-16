@@ -12,29 +12,73 @@
   <title>Tauri App</title>
 </head>
 
+<template id="menu-button-template">
+  <link rel="stylesheet" href="components.css" />
+  <style>
+    .row {
+      position: relative;
+      top: 3px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      padding: 0em 0em;
+      height: 28px;
+    }
+  </style>
+  <button class="menu-button">
+    <div class="row">
+      <img id="icon" class="icon" src="./assets/icons/add.svg" height="22px" />
+      <p id="text"></p>
+    </div>
+  </button>
+</template>
+
 <template id="mod-card-template">
+  <link rel="stylesheet" href="components.css" />
   <style>
     :host {
       border-radius: 4px;
       display: block;
-      width: 100vh;
-      height: 9vh;
-      background-color: gray;
+      width: 99%;
+      height: 72px;
+      background-color: #0f0f0f;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
       white-space: nowrap;
     }
+
     .row {
       display: flex;
-      flex-direction: row;
+      justify-content: left;
+      /*flex-direction: row;*/
+      margin-left: 8px;
+    }
+
+    .end {
+      position: relative;
+      width: 100%;
+      top: 0px;
+      display: flex;
+      justify-content: right;
+    }
+
+    p,
+    h3 {
+      color: whitesmoke;
     }
   </style>
   <div class="row">
-    <p>111111</p>
-    <p>111111</p>
-    <p>111111</p>
+    <h3 style="margin-top: 10px;" id="mod-name">modname</h3>
+  </div>
+  <p id="description" style="position: relative;margin-left: 8px; top: -30px;color: darkgray;">description</p>
+  <div class="end">
+    <input id="switch" style="top: -92px;" type="checkbox" />
   </div>
 </template>
 
 <body>
+  <div class="loading-mask" id="loading-mask">
+  </div>
   <div class="row2">
     <div class="left-top-for-nav">
       <button type="submit" class="nav-button" id="home">main.home</button>
@@ -42,22 +86,24 @@
       <button type="submit" class="nav-button" id="mods">main.mods</button>
       <button type="submit" class="nav-button" id="setting">main.setting</button>
     </div>
-    <div class="page" id="home">
+    <div class="page" id="home-page">
       <h1 class="page-h1">main.home</h1>
-      <input type="checkbox"/>
       <div class="right-bottom">
         <button id="launch" type="submit">main.home.launch</button>
       </div>
     </div>
-    <div class="page" id="presets">
+    <div class="page" id="presets-page">
       <h1 class="page-h1">main.presets</h1>
     </div>
-    <div class="page" id="mods">
+    <div class="page" id="mods-page">
       <h1 class="page-h1">main.mods</h1>
-      <mod-card></mod-card>
-      <mod-card></mod-card>
+      <div class="row2">
+        <menu-button id="add-mod" icon="./assets/icons/add.svg" text="mods.add"></menu-button>
+      </div>
+      <div class="mod-cards-page" id="mod-cards-page">
+      </div>
     </div>
-    <div class="page" id="setting">
+    <div class="page" id="setting-page">
       <h1 class="page-h1">main.setting</h1>
     </div>
   </div>

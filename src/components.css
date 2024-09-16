@@ -1,6 +1,4 @@
-/* Finality Framework Components CSS 
-   Copy this to your theme project. 
-*/
+/* Finality Framework Components CSS */
 input,
 button,
 select {
@@ -50,8 +48,27 @@ button.nav-button:hover {
 button.nav-button.active,
 button.active,
 button:active {
-    color:whitesmoke;
+    color: whitesmoke;
     border-color: #396cd8;
+    background-color: #396cd8;
+}
+
+
+button.menu-button{
+    margin-bottom: 12px;
+    padding: 0.2em 0.2em;
+    position: relative;
+    left : 0px;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+button.menu-button:hover {
+    color: whitesmoke;
+    background-color: rgba(128, 128, 128, 0.329);
+}
+
+button.menu-button:active{
     background-color: #396cd8;
 }
 
@@ -91,8 +108,16 @@ select:hover {
 .icon {
     filter: brightness(0);
 }
+.icon-toolbar {
+    position: relative;
+    right: -24px;
+    filter: brightness(0);
+}
+
 
 .page-h1 {
+    margin-top: 48px;
+    margin-bottom: 36px;
     text-align: start;
 }
 
@@ -105,6 +130,7 @@ input[type="checkbox"] {
     cursor: pointer;
     background-color: #777;
 }
+
 input[type="checkbox"]:before {
     content: "";
     position: absolute;
@@ -114,29 +140,54 @@ input[type="checkbox"]:before {
     left: 2px;
     top: 5px;
     border-radius: 50%;
-    transition: left cubic-bezier(0.3, 1.5, 0.6, 1) 0.2s,top 0.2s,left 0.2s,width 0.2s,height 0.2s;
+    transition: left cubic-bezier(0.3, 1.5, 0.6, 1) 0.2s, top 0.2s, left 0.2s, width 0.2s, height 0.2s;
 }
+
 input[type="checkbox"]:hover {
     background-color: #838383;
 }
+
 input[type="checkbox"]:hover::before {
     width: 22px;
     height: 22px;
-    left:3px;
+    left: 3px;
     top: 4px;
 }
+
 input[type="checkbox"]:checked {
     background-color: #396cd8;
 }
+
 input[type="checkbox"]:checked:before {
     left: 38px;
 }
+
 input[type="checkbox"]:checked:after {
     color: black;
 }
 
+.loading-mask {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #2f2f2f;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
+    .icon-toolbar {
+        filter: brightness(100);
+    }
+    
     .select-wrapper::after {
         color: #f6f6f6;
     }
@@ -162,7 +213,7 @@ input[type="checkbox"]:checked:after {
     }
 
     button.nav-button {
-        background-color: rgba(87,87,87,0.0);
+        background-color: rgba(87, 87, 87, 0.0);
     }
 
     button.nav-button.active,

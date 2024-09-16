@@ -1,5 +1,5 @@
 //mod is a keyword of rust.
-use crate::env_manager::{self, ENV};
+use crate::env_manager::ENV;
 use serde::{Deserialize, Serialize};
 use serde_json::{self, Value};
 use std::{
@@ -20,7 +20,7 @@ pub fn load_mods() {
         }
         for folder in fs::read_dir(mod_path).unwrap() {
             let dir_entry = folder.unwrap();
-            if let Some(instance) = ModInstance::load(dir_entry.path().to_str().unwrap()){
+            if let Some(instance) = ModInstance::load(dir_entry.path().to_str().unwrap()) {
                 mod_list.push(instance);
             }
         }
@@ -31,7 +31,7 @@ pub fn load_mods() {
 pub fn build_manifest() {
     unsafe {
         println!("Building manifest");
-        println!("modlist size {}",&ENV.mod_list.len().to_string());
+        println!("modlist size {}", &ENV.mod_list.len().to_string());
         let config = ENV.config.pop().unwrap();
         let game_path = config.game_path.to_string();
         let mut manifest_str: String = String::from("");
@@ -46,7 +46,7 @@ pub fn build_manifest() {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize,Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ModInstance {
     pub path: String,
     pub enabled: bool,
@@ -66,9 +66,8 @@ impl ModInstance {
         }
         let path2 = path.to_string();
         let mod_txt = fs::read_to_string(path.to_string() + "/mod.txt");
-        if let Ok(_) = mod_txt{
-
-        }else{
+        if let Ok(_) = mod_txt {
+        } else {
             println!("{}", path.to_string() + "mod.txt");
             println!("None modtxt");
             return None;
@@ -94,20 +93,27 @@ impl ModInstance {
     }
     pub fn enable(&mut self) {
         let disabled_flag_file_path = "".to_string() + &self.path + "/DISABLED";
-        if !&self.enabled {
-            if Path::new(&disabled_flag_file_path).exists() {
-                fs::remove_file(Path::new(&disabled_flag_file_path)).unwrap();
-            }
-            self.enabled = true;
+        println!("enable passed1");
+        if Path::new(&disabled_flag_file_path).exists() {
+            println!("enable passed2");
+            fs::remove_file(Path::new(&disabled_flag_file_path)).unwrap();
         }
+        self.enabled = true;
     }
     pub fn disable(&mut self) {
         let disabled_flag_file_path = "".to_string() + &self.path + "/DISABLED";
-        if self.enabled {
-            if !Path::new(&disabled_flag_file_path).exists() {
-                File::create(Path::new(&disabled_flag_file_path)).unwrap();
-            }
-            self.enabled = false;
+        println!("disable passed1");
+        if !Path::new(&disabled_flag_file_path).exists() {
+            println!("disable passed2");
+            File::create(Path::new(&disabled_flag_file_path)).unwrap();
+        }
+        self.enabled = false;
+    }
+    pub fn switch(&mut self, enabled: bool) {
+        if enabled {
+            self.enable();
+        } else {
+            self.disable();
         }
     }
 }

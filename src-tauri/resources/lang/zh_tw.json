@@ -3,6 +3,7 @@
     "common.name":"Finality Framework",
     "oobe.invaild_game_path": "無效的遊戲實例路徑！",
     "oobe.welcome": "歡迎！",
+    "oobe.jre_not_found":"Finality Framework需要Java 運行時環境（JRE）才能運行。\n請安裝JRE後重啟Finality Framework。",
     "oobe.intro":"看起來您是初次使用Finality Framework。\n本嚮導頁面將幫助您完成Finality Framework的配置。\n選擇您的《歷史時代3》遊戲資料夾路徑。",
     "oobe.input_game_path":"輸入遊戲路徑",
     "common.continue":"繼續",
@@ -12,5 +13,7 @@
     "main.setting":"設置",
     "main.mods":"模組",
     "main.presets":"預設",
-    "main.home.launch":"啟動遊戲"
+    "main.home.launch":"啟動遊戲",
+    "mods.no_description": "無描述",
+    "mods.add":"添加"
 }

@@ -1,15 +1,49 @@
 use std::{
-    fs::{self, File},
-    process::Command,
+    fs::{self, File}, io::{self, Write}, process::Command
 };
 
 use crate::{
-    config_manager::{self, Config},
+    config_manager::Config,
     consts,
     env_manager::ENV,
     language_manager::load_locale_text,
     mod_manager::{self, ModInstance},
 };
+
+#[tauri::command]
+pub fn extract_mod_zip(zip_path:&str){
+    println!("extract_mod_zip: {}",zip_path);
+    if zip_path.is_empty() || !zip_path.ends_with(".zip") {
+        println!("zip_path is empty or not end with .zip");
+        return;
+    }
+    let name = zip_path.split(std::path::MAIN_SEPARATOR_STR).last().unwrap().replace(".zip", "");
+    let mut zip = zip::ZipArchive::new(File::open(zip_path).unwrap()).unwrap();
+    let mut mod_txt_exists = false;
+    let mut id_txt_exists = false;
+    //判断zip内是否存在mod.txt文件和id.txt文件
+    for i in 0..zip.len() {
+        println!("file name: {}", zip.by_index(i).unwrap().name());
+        let file = zip.by_index(i).unwrap();
+        if file.name() == "mod.txt" {  
+            mod_txt_exists = true;
+        }
+        if file.name() == "id.txt" {
+            id_txt_exists = true;
+        }
+    }
+    if mod_txt_exists && id_txt_exists {
+        let mut game_path = String::new();
+        //解压文件
+        unsafe{
+            let config = ENV.config.pop().unwrap();
+            game_path = config.game_path.to_string();
+            ENV.config.push(config);
+        }
+        println!("extract at {}", (&game_path).to_string()+"mod"+std::path::MAIN_SEPARATOR_STR+&name);
+        zip.extract(game_path+"mod"+std::path::MAIN_SEPARATOR_STR+&name).unwrap();
+    }
+}
 
 #[tauri::command]
 pub fn is_oobe_over() -> bool {
@@ -33,6 +67,7 @@ pub fn set_oobe_over(oobe_over2: bool) {
 
 #[tauri::command]
 pub fn load_mods() {
+    println!("load mods");
     mod_manager::load_mods();
 }
 #[tauri::command]
@@ -122,7 +157,7 @@ pub fn is_a_vaild_game_path(path: &str) -> bool {
 #[tauri::command]
 pub fn get_mods() -> Vec<ModInstance> {
     unsafe {
-        let mut mod_list:Vec<ModInstance> = Vec::new();
+        let mut mod_list: Vec<ModInstance> = Vec::new();
         for instance in &ENV.mod_list {
             let instance = instance.clone();
             mod_list.push(instance);
@@ -152,8 +187,45 @@ pub fn save_config() {
 }
 
 #[tauri::command]
+pub fn open_website(url: &str) {
+    let _ = Command::new("cmd").arg("/C").arg("start").arg(url).spawn();
+}
+
+#[tauri::command]
+pub fn jre_exists() -> bool {
+    //通过java -version命令判断jre是否存在
+    println!("jre_exists");
+    let output = Command::new("java").arg("-Dfile.encoding=utf-8").arg("-version").output();
+    if let Ok(output) = output {
+        io::stdout().write_all(&output.stdout).unwrap();
+        println!("2");
+        if output.status.success() {
+            println!("3");
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
+#[tauri::command]
+pub async fn switch_mod(id: u64, enabled: bool) {
+    println!("switch mod id:{} enabled:{}", id, enabled);
+    unsafe {
+        let mut mod_list = ENV.mod_list.clone();
+        for instance in &mut mod_list {
+            if instance.id == id {
+                instance.switch(enabled)
+            }
+        }
+    }
+}
+
+#[tauri::command]
 pub fn launch_game() {
     let game_path: String;
+
+    mod_manager::load_mods();
     mod_manager::build_manifest();
     unsafe {
         let config = ENV.config.pop().unwrap();

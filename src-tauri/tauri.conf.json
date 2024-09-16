@@ -11,17 +11,22 @@
     "tauri": {
         "allowlist": {
             "window":{
+                "all": true,
                 "setDecorations": true
             },
             "dialog": {
                 "all": true,
-                "open": true
+                "open": true,
+                "message":true
             },
             "shell": {
                 "all": false,
                 "open": true
             },
             "path": {
+                "all": true
+            },
+            "process": {
                 "all": true
             }
         },
@@ -30,7 +35,7 @@
                 "title": "Finality Framework",
                 "width": 800,
                 "height": 600,
-                "decorations":false,
+                "decorations":true,
                 "transparent": true
             }
         ],
@@ -59,7 +64,8 @@
                     "languages": [
                         "English",
                         "SimpChinese"
-                    ]
+                    ],
+                    "displayLanguageSelector":true
                 }
             }
         }

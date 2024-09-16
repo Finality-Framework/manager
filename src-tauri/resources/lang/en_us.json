@@ -3,6 +3,7 @@
     "common.name":"Finality Framework",
     "oobe.invaild_game_path": "Invaild Game Folder!",
     "oobe.welcome": "Welcome!",
+    "oobe.jre_not_found": "Finality Framework requires Java Runtime Environment (JRE) to run. Please install JRE and restart Finality Framework.",
     "oobe.intro":"It looks like you are using Finality Framework for the first time.\nThis wizard page will help you to complete the configuration of Finality Framework. \nSelect your Age of History 3 game folder path. ",
     "oobe.input_game_path":"Input game folder path",
     "common.continue":"Continue",
@@ -12,5 +13,7 @@
     "main.setting":"Setting",
     "main.mods":"Mods",
     "main.presets":"Presets",
-    "main.home.launch":"Launch Game"
+    "main.home.launch":"Launch Game",
+    "mods.no_description":"No description",
+    "mods.add":"Add"
 }

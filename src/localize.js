@@ -19,6 +19,18 @@ export function refresh_locale_text() {
   })
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  refresh_locale_text();
-})
+export function useSystemLanguage(){
+  switch (navigator.language) {
+    case "zh-CN":
+      native.set_lang("zh_cn");
+      break;
+    case "zh-TW":
+      native.set_lang("zh_tw");
+      break;
+    case "en-US":
+      native.set_lang("en_us");
+      break;
+    default:
+      native.set_lang("en_us");
+  }
+}
