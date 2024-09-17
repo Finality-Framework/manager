@@ -46,6 +46,20 @@ pub fn build_manifest() {
     }
 }
 
+pub fn remove_mod(id: u64) {
+    println!("try to remove mod id:{}",id);
+    unsafe {
+        //遍历mod_list获得需要删除的mod的path
+        for mod_instance in &ENV.mod_list {
+            if mod_instance.id == id {
+                let mod_path = "".to_string() + &mod_instance.path + std::path::MAIN_SEPARATOR_STR;
+                fs::remove_dir_all(Path::new(&mod_path)).unwrap();
+                break;
+            }
+        }
+    }
+    load_mods();
+}
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ModInstance {
     pub path: String,
@@ -60,12 +74,14 @@ pub struct ModInstance {
 impl ModInstance {
     pub fn load(path: &str) -> Option<ModInstance> {
         let mut disabled = false;
-        let disabled_flag_file_path = "".to_string() + path + "/DISABLED";
+        let disabled_flag_file_path =
+            "".to_string() + path + std::path::MAIN_SEPARATOR_STR + "DISABLED";
         if Path::new(&disabled_flag_file_path).exists() {
             disabled = true;
         }
         let path2 = path.to_string();
-        let mod_txt = fs::read_to_string(path.to_string() + "/mod.txt");
+        let mod_txt =
+            fs::read_to_string(path.to_string() + std::path::MAIN_SEPARATOR_STR + "mod.txt");
         if let Ok(_) = mod_txt {
         } else {
             println!("{}", path.to_string() + "mod.txt");

@@ -10,6 +10,12 @@ use crate::{
     mod_manager::{self, ModInstance},
 };
 
+
+#[tauri::command]
+pub fn remove_mod(id:u64){
+    mod_manager::remove_mod(id);
+}
+
 #[tauri::command]
 pub fn extract_mod_zip(zip_path:&str){
     println!("extract_mod_zip: {}",zip_path);

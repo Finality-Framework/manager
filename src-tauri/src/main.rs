@@ -6,7 +6,7 @@ use config_manager::Config;
 use env_manager::ENV;
 use language_manager::load_locale_text;
 use tauri::Manager;
-use tauri_commands::{extract_bootstrap, extract_mod_zip, get_language, get_mods, get_text, is_a_vaild_game_path, is_oobe_over, jre_exists, launch_game, load_mods, open_website, reload_config, save_config, set_lang, set_oobe_over, switch_mod};
+use tauri_commands::{remove_mod,extract_bootstrap, extract_mod_zip, get_language, get_mods, get_text, is_a_vaild_game_path, is_oobe_over, jre_exists, launch_game, load_mods, open_website, reload_config, save_config, set_lang, set_oobe_over, switch_mod};
 mod config_manager;
 mod consts;
 mod env_manager;
@@ -39,6 +39,7 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            remove_mod,
             extract_mod_zip,
             open_website,
             jre_exists,

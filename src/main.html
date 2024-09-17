@@ -42,7 +42,7 @@
       display: block;
       width: 99%;
       height: 72px;
-      background-color: #0f0f0f;
+      background-color: #ffffff;
       box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
       white-space: nowrap;
     }
@@ -64,15 +64,25 @@
 
     p,
     h3 {
-      color: whitesmoke;
+      color:  #0f0f0f;
+    }
+    @media (prefers-color-scheme: dark){
+      :host {
+        background-color: #0f0f0f;
+      }
+      p,
+      h3{
+        color: whitesmoke;
+      }
     }
   </style>
   <div class="row">
     <h3 style="margin-top: 10px;" id="mod-name">modname</h3>
   </div>
   <p id="description" style="position: relative;margin-left: 8px; top: -30px;color: darkgray;">description</p>
-  <div class="end">
-    <input id="switch" style="top: -92px;" type="checkbox" />
+  <div class="end row">
+    <button id="remove" class="icon-button" type="submit" style="position: relative;top: -92px;left: -16px;color:transparent;box-shadow: none;" ><img class="icon" src="./assets/icons/delete.svg" height="20px" /></button>
+    <input id="switch" style="top: -92px;left: -16px;" type="checkbox" />
   </div>
 </template>
 

@@ -64,13 +64,19 @@ button.menu-button{
 }
 
 button.menu-button:hover {
-    color: whitesmoke;
+    color:#0f0f0f;
     background-color: rgba(128, 128, 128, 0.329);
 }
 
 button.menu-button:active{
     background-color: #396cd8;
 }
+
+button.icon-button:hover {
+    background-color: rgba(128, 128, 128, 0.329);
+}
+
+/* Button Style End */
 
 /* Select Styles */
 select {
@@ -184,6 +190,10 @@ input[type="checkbox"]:checked:after {
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
+    button.menu-button:hover {
+        color:#f6f6f6;
+        background-color: rgba(128, 128, 128, 0.329);
+    }
     .icon-toolbar {
         filter: brightness(100);
     }

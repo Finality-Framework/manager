@@ -1,4 +1,3 @@
-const { open, message } = window.__TAURI__.dialog
 import * as native from "./native.js"
 import * as localize from "./localize.js"
 let selectedPathEl
@@ -16,7 +15,7 @@ function get_better_path(path_str) {
 async function greet() {
   let path = await native.open_file_chooser(true);
   if (!await native.is_a_vaild_game_path(path)) {
-    message(await native.get_text("oobe.invaild_game_path"), { title: "Finality Framework", type: "error" })
+    await native.open_message_box("Finality Framework",await native.get_text("oobe.invaild_game_path"), "error")
     //selectedPathEl.value = "未选择游戏路径"
   } else {
     selectedPathEl.value = path
@@ -26,7 +25,7 @@ async function greet() {
 async function confirm_next() {
   selectedPathEl.value = get_better_path(selectedPathEl.value);
   if (!await native.is_a_vaild_game_path(selectedPathEl.value)) {
-    message(await native.get_text("oobe.invaild_game_path_please_check"), { title: "Finality Framework", type: "error" })
+    native.open_message_box("Finality Framework",await native.get_text("oobe.invaild_game_path_please_check"), "error")
     selectedPathEl.value = ""
   } else {
     await native.set_oobe_over(true)
@@ -38,7 +37,7 @@ async function confirm_next() {
 window.addEventListener("DOMContentLoaded", async () => {
   localize.refresh_locale_text();
   if (!await native.jre_exists()) {
-    await message(await native.get_text("oobe.jre_not_found"), { title: "Finality Framework", type: "error" })
+    native.open_message_box("Finality Framework", await native.get_text("oobe.jre_not_found"), "error")
     native.open_website("https://www.java.com")
     native.exit_program();
   }

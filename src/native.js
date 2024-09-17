@@ -23,6 +23,14 @@ function get_better_path(path_str) {
     }
 }
 
+export async function remove_mod(id) {
+    await invoke("remove_mod", { id: id })
+}
+
+export async function open_message_box(title, text, type) {
+    await message(text,{ title: title, type: type})
+}
+
 export async function open_file_chooser(isDirectory) {
     let path = await open({ directory: isDirectory })
     if(isDirectory){

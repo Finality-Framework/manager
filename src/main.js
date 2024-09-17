@@ -110,6 +110,10 @@ async function buildModCardList() {
             modCardElement.modObject = mod;
             modCardElement.setAttribute("modname", mod.name);
             modCardElement.setAttribute("modenabled", mod.enabled)
+            modCardElement.shadowRoot.querySelector("#remove").onclick = async function () {
+                await native.remove_mod(modCardElement.modObject.id);
+                buildModCardList();
+            }
             modCardElement.shadowRoot.querySelector("#switch").onclick = async function () {
                 modCardElement.setAttribute("modenabled", this.checked);
                 await native.switch_mod(modCardElement.modObject.id, this.checked);
