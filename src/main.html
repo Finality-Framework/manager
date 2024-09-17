@@ -3,17 +3,17 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" href="components.css" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="layouts.css" />
-  <script type="module" src="/main.js" defer></script>
-  <script type="module" src="/localize.js" defer></script>
+  <link rel="stylesheet" href="./styles/components.css" />
+  <link rel="stylesheet" href="./styles/styles.css" />
+  <link rel="stylesheet" href="./styles/layouts.css" />
+  <script type="module" src="./main.js" defer></script>
+  <script type="module" src="./localize.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tauri App</title>
 </head>
 
 <template id="menu-button-template">
-  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
   <style>
     .row {
       position: relative;
@@ -35,7 +35,7 @@
 </template>
 
 <template id="mod-card-template">
-  <link rel="stylesheet" href="components.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
   <style>
     :host {
       border-radius: 4px;
@@ -64,14 +64,16 @@
 
     p,
     h3 {
-      color:  #0f0f0f;
+      color: #0f0f0f;
     }
-    @media (prefers-color-scheme: dark){
+
+    @media (prefers-color-scheme: dark) {
       :host {
         background-color: #0f0f0f;
       }
+
       p,
-      h3{
+      h3 {
         color: whitesmoke;
       }
     }
@@ -81,7 +83,9 @@
   </div>
   <p id="description" style="position: relative;margin-left: 8px; top: -30px;color: darkgray;">description</p>
   <div class="end row">
-    <button id="remove" class="icon-button" type="submit" style="position: relative;top: -92px;left: -16px;color:transparent;box-shadow: none;" ><img class="icon" src="./assets/icons/delete.svg" height="20px" /></button>
+    <button id="remove" class="icon-button" type="submit"
+      style="position: relative;top: -92px;left: -16px;color:transparent;box-shadow: none;"><img class="icon"
+        src="./assets/icons/delete.svg" height="20px" /></button>
     <input id="switch" style="top: -92px;left: -16px;" type="checkbox" />
   </div>
 </template>
@@ -95,6 +99,7 @@
       <button type="submit" class="nav-button" id="presets">main.presets</button>
       <button type="submit" class="nav-button" id="mods">main.mods</button>
       <button type="submit" class="nav-button" id="setting">main.setting</button>
+      <button type="submit" class="nav-button" id="about">main.about</button>
     </div>
     <div class="page" id="home-page">
       <h1 class="page-h1">main.home</h1>
@@ -115,6 +120,13 @@
     </div>
     <div class="page" id="setting-page">
       <h1 class="page-h1">main.setting</h1>
+    </div>
+    <div class="page" id="about-page">
+      <h1 class="page-h1" style="margin-bottom: 0px;">main.about</h1>
+      <div style="white-space: pre-line;">
+        <p>main.about.content</p>
+        <p class="no-translate">Copyright 2024,Team Rainfall.<br>This project is under GPLv3 License.</p>
+      </div>
     </div>
   </div>
 </body>

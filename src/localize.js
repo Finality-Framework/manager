@@ -3,7 +3,9 @@ import * as native from "./native.js"
 export function refresh_locale_text() {
   let pEls = document.querySelectorAll("p");
   pEls.forEach(p => {
-    native.get_text(p.textContent).then((result) => { p.textContent = result })
+    if (!p.classList.contains("no-translate")) {
+      native.get_text(p.textContent).then((result) => { p.textContent = result })
+    }
   })
   let h1Els = document.querySelectorAll("h1");
   h1Els.forEach(h1 => {
@@ -19,7 +21,7 @@ export function refresh_locale_text() {
   })
 }
 
-export function useSystemLanguage(){
+export function useSystemLanguage() {
   switch (navigator.language) {
     case "zh-CN":
       native.set_lang("zh_cn");

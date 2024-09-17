@@ -38,13 +38,13 @@ jobs:
       uses: tauri-apps/tauri-action@v0
     - name: upload artifact(win)
       if: matrix.platform == 'windows-latest'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: windows
         path: ${{ github.workspace }}\src-tauri\target\release\bundle\nsis
     - name: upload artifact(ubuntu)
       if: matrix.platform == 'ubuntu-20.04'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v4
       with:
         name: ubuntu
         path: ${{ github.workspace}}/src-tauri/target/release/bundle/deb

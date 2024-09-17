@@ -13,6 +13,8 @@
     "main.setting":"设置",
     "main.mods":"模组",
     "main.presets":"预设",
+    "main.about":"关于",
+    "main.about.content":"Finality Framework\nDeveloper Preview 2",
     "main.home.launch":"启动游戏",
     "mods.no_description": "无描述",
     "mods.add":"添加"
